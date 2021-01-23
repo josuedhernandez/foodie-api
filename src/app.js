@@ -7,7 +7,7 @@ const helmet = require("helmet");
 const app = express();
 const { NODE_ENV } = require("./config");
 
-const morganOption = NODE_ENV === "production";
+const morganOption = NODE_ENV === "production" ? 'tiny' : 'common';
 
 app.use(morgan(morganOption));
 app.use(helmet());
