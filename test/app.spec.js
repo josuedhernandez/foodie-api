@@ -57,4 +57,12 @@ describe("App Protected Endpoints", () => {
       .set("Authorization", makeAuthHeader(userNoCreds))
       .expect(401, { error: `Unauthorized request` });
   });
+
+  it(`responds 401 'Unauthorized request' when invalid user`, () => {
+    const userInvalidCreds = { user_name: "user-not", password: "existy" };
+    return supertest(app)
+      .get(`/api/test`)
+      .set("Authorization", makeAuthHeader(userInvalidCreds))
+      .expect(401, { error: `Unauthorized request` });
+  });
 });
