@@ -1,4 +1,4 @@
-# Express Boilerplate!
+# Foodie API
 
 Food API is the backend for [Foodie App](https://foodie-psi.vercel.app/) a search app for restaurants. More features as recipes for meals will he added.
 
