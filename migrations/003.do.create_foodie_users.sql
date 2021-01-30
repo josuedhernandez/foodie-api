@@ -7,3 +7,7 @@ CREATE TABLE foodie_users (
   date_created TIMESTAMP DEFAULT now() NOT NULL,
   date_modified TIMESTAMP
 );
+
+ALTER TABLE foodie_restaurants
+  ADD COLUMN
+    author_id INTEGER REFERENCES foodie_users(id) ON DELETE SET NULL,
