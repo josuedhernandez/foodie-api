@@ -7,4 +7,4 @@ CREATE TYPE type_cuisine AS ENUM (
 );
 ALTER TABLE foodie_restaurants
   ADD COLUMN
-    cuisine type_cuisine,;
+    cuisine type_cuisine;

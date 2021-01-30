@@ -10,4 +10,4 @@ CREATE TABLE foodie_users (
 
 ALTER TABLE foodie_restaurants
   ADD COLUMN
-    author_id INTEGER REFERENCES foodie_users(id) ON DELETE SET NULL,
+    author_id INTEGER REFERENCES foodie_users(id) ON DELETE SET NULL;
