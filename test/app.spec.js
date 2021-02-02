@@ -26,6 +26,7 @@ describe("App Protected Endpoints", () => {
     const token = Buffer.from(`${user.user_name}:${user.password}`).toString(
       "base64"
     );
+    console.log(token)
     return `Basic ${token}`;
   }
 
