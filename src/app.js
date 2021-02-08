@@ -6,7 +6,7 @@ const { NODE_ENV } = require("./config");
 const restaurantsRouter = require("./restaurants/restaurants-router");
 // const commentsRouter = require("./comments/comments-router");
 const authRouter = require('./auth/auth-router')
-// const usersRouter = require('./users/users-router')
+const usersRouter = require('./users/users-router')
 
 const app = express();
 
@@ -23,7 +23,7 @@ app.use('/api/auth', authRouter)
 // add /signup
 
 // Protected routes need authentication for them to be accesible
-// app.use('/api/users', usersRouter)
+app.use('/api/users', usersRouter)
 app.use('/api/restaurants', restaurantsRouter)
 // app.use('/api/comments', commentsRouter)
 
