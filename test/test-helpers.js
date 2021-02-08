@@ -193,7 +193,7 @@ function makeExpectedRestaurantComments(users, restaurantId, comments) {
 function makeMaliciousRestaurant(user) {
   const maliciousRestaurant = {
     id: 911,
-    style: 'Italian',
+    cuisine: 'Italian',
     date_created: new Date(),
     rating: 1,
     restaurant_name: 'Naughty naughty very naughty <script>alert("xss");</script>',
@@ -276,12 +276,12 @@ function seedRestaurantsTables(db, users, restaurants, comments=[]) {
   })
 }
 
-function seedMaliciousRestaurant(db, user, article) {
+function seedMaliciousRestaurant(db, user, restaurant) {
   return seedUsers(db, [user])
     .then(() =>
       db
         .into('foodie_restaurants')
-        .insert([article])
+        .insert([restaurant])
     )
 }
 
