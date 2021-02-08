@@ -36,7 +36,6 @@ const CommentsService = {
   },
 
   insertComment(db, newComment) {
-      console.log(newComment)
     return db
       .insert(newComment)
       .into('foodie_comments')
