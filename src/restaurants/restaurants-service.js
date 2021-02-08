@@ -1,18 +1,17 @@
-const xss = require('xss')
+const xss = require("xss");
 
 const RestaurantsService = {
   getAllRestaurants(db) {
     return db
-      .from('foodie_restaurants AS rest')
+      .from("foodie_restaurants AS rest")
       .select(
-        'rest.id',
-        'rest.title',
-        'rest.date_created',
-        'rest.style',
-        'rest.content',
-        db.raw(
-          `count(DISTINCT comm) AS number_of_comments`
-        ),
+        "rest.id",
+        "rest.restaurant_name",
+        "rest.date_created",
+        "rest.rating",
+        "rest.cuisine",
+        "rest.meal",
+        db.raw(`count(DISTINCT comm) AS number_of_comments`),
         db.raw(
           `json_strip_nulls(
             json_build_object(
@@ -24,34 +23,27 @@ const RestaurantsService = {
               'date_modified', usr.date_modified
             )
           ) AS "author"`
-        ),
+        )
       )
-      .leftJoin(
-        'blogful_comments AS comm',
-        'art.id',
-        'comm.article_id',
-      )
-      .leftJoin(
-        'blogful_users AS usr',
-        'art.author_id',
-        'usr.id',
-      )
-      .groupBy('art.id', 'usr.id')
+      .leftJoin("foodie_comments AS comm", "rest.id", "comm.restaurant_id")
+      .leftJoin("foodie_users AS usr", "rest.author_id", "usr.id")
+      .groupBy("rest.id", "usr.id");
   },
 
   getById(db, id) {
-    return ArticlesService.getAllArticles(db)
-      .where('art.id', id)
-      .first()
+    return RestaurantsService.getAllRestaurants(db)
+      .where("rest.id", id)
+      .first();
   },
 
-  getCommentsForArticle(db, article_id) {
+  getCommentsForRestaurant(db, restaurant_id) {
     return db
-      .from('blogful_comments AS comm')
+      .from("foodie_comments AS comm")
       .select(
-        'comm.id',
-        'comm.text',
-        'comm.date_created',
+        "comm.id",
+        "comm.text",
+        "comm.rating",
+        "comm.date_created",
         db.raw(
           `json_strip_nulls(
             row_to_json(
@@ -68,40 +60,38 @@ const RestaurantsService = {
           ) AS "user"`
         )
       )
-      .where('comm.article_id', article_id)
-      .leftJoin(
-        'blogful_users AS usr',
-        'comm.user_id',
-        'usr.id',
-      )
-      .groupBy('comm.id', 'usr.id')
+      .where("comm.restaurant_id", restaurant_id)
+      .leftJoin("foodie_users AS usr", "comm.user_id", "usr.id")
+      .groupBy("comm.id", "usr.id");
   },
 
-  serializeArticle(article) {
-    const { author } = article
+  serializeRestaurant(restaurant) {
+    const { author } = restaurant;
     return {
-      id: article.id,
-      style: article.style,
-      title: xss(article.title),
-      content: xss(article.content),
-      date_created: new Date(article.date_created),
-      number_of_comments: Number(article.number_of_comments) || 0,
+      id: restaurant.id,
+      cuisine: restaurant.cuisine,
+      restaurant_name: xss(restaurant.restaurant_name),
+      meal: xss(restaurant.meal),
+      date_created: new Date(restaurant.date_created),
+      number_of_comments: Number(restaurant.number_of_comments) || 0,
+      rating: restaurant.rating,
       author: {
         id: author.id,
         user_name: author.user_name,
         full_name: author.full_name,
         nickname: author.nickname,
         date_created: new Date(author.date_created),
-        date_modified: new Date(author.date_modified) || null
+        date_modified: new Date(author.date_modified) || null,
       },
-    }
+    };
   },
 
-  serializeArticleComment(comment) {
-    const { user } = comment
+  serializeRestaurantComment(comment) {
+    const { user } = comment;
     return {
       id: comment.id,
-      article_id: comment.article_id,
+      restaurant_id: comment.restaurant_id,
+      rating: comment.rating,
       text: xss(comment.text),
       date_created: new Date(comment.date_created),
       user: {
@@ -110,10 +100,10 @@ const RestaurantsService = {
         full_name: user.full_name,
         nickname: user.nickname,
         date_created: new Date(user.date_created),
-        date_modified: new Date(user.date_modified) || null
+        date_modified: new Date(user.date_modified) || null,
       },
-    }
+    };
   },
-}
+};
 
-module.exports = RestaurantsService
+module.exports = RestaurantsService;
