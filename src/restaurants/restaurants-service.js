@@ -36,6 +36,15 @@ const RestaurantsService = {
       .first();
   },
 
+  insertRestaurant(db, newRestaurant) {
+    return db
+      .insert(newRestaurant)
+      .into("foodie_restaurants")
+      .returning("*")
+      .then(([restaurant]) => restaurant)
+      .then((restaurant) => RestaurantsService.getById(db, restaurant.id));
+  },
+
   getCommentsForRestaurant(db, restaurant_id) {
     return db
       .from("foodie_comments AS comm")

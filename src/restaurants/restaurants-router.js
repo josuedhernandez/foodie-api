@@ -1,7 +1,9 @@
 const express = require("express");
+const path = require("path");
 const RestaurantsService = require("./restaurants-service");
 const { requireAuth } = require("../middleware/jwt-auth");
 
+const jsonBodyParser = express.json();
 const restaurantsRouter = express.Router();
 
 restaurantsRouter
@@ -14,6 +16,27 @@ restaurantsRouter
     RestaurantsService.getAllRestaurants(req.app.get("db"))
       .then((restaurants) => {
         res.json(restaurants.map(RestaurantsService.serializeRestaurant));
+      })
+      .catch(next);
+  })
+  .post(requireAuth, jsonBodyParser, (req, res, next) => {
+    const { restaurant_name, cuisine, rating, meal } = req.body;
+    const newRestaurant = { restaurant_name, cuisine, rating, meal };
+
+    for (const [key, value] of Object.entries(newRestaurant))
+      if (value == null)
+        return res.status(400).json({
+          error: `Missing '${key}' in request body`,
+        });
+
+    newRestaurant.author_id = req.user.id;
+
+    RestaurantsService.insertRestaurant(req.app.get("db"), newRestaurant)
+      .then((restaurant) => {
+        res
+          .status(201)
+          .location(path.posix.join(req.originalUrl, `/${restaurant.id}`))
+          .json(RestaurantsService.serializeRestaurant(restaurant));
       })
       .catch(next);
   });
