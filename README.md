@@ -26,7 +26,7 @@ Base URL: [https://morning-castle-66587.herokuapp.com/api](https://morning-castl
       }
     ```
 * POST `/auth/login` returns a JWT token if the correct username and password (using "bcryptjs") was provided:
-  *  The response and JWT with 3 hours of experiation.
+  *  The response and JWT with 3 hours of expiration.
 
 * POST `/auth/signup` posts and creates a new username in the database:
     *  The body looks like:
