@@ -25,20 +25,19 @@ Base URL: [https://morning-castle-66587.herokuapp.com/api](https://morning-castl
       meal: "Fried Rice"
       }
     ```
-* POST `/auth/login` returns JWT toker and correct username and password (using "bcryptjs") was provided;
-const jwt = require("jsonwebtoken");).
+* POST `/auth/login` returns a JWT token if the correct username and password (using "bcryptjs") was provided:
   *  The response and JWT with 3 hours of experiation.
 
 * POST `/auth/signup` posts and creates a new username in the database:
-*  The body looks like:
-  ```
-  {
-      user_name: "First test post!",
-      full_name: "My Name",  (use bycrytps)
-      password: "$2a$12$lHK6LVpc15/ZROZcKU00QeiD.RyYq5dVlV/9m4kKYbGibkRc5l4Ne",
-      nickname: "My nickname"  (not required)
-      }
-      ``` 
+    *  The body looks like:
+    ```
+    {
+        user_name: "First test post!",
+        full_name: "My Name",  (use bycrytps)
+        password: "$2a$12$lHK6LVpc15/ZROZcKU00QeiD.RyYq5dVlV/9m4kKYbGibkRc5l4Ne",
+        nickname: "My nickname"  (not required)
+    }
+        ``` 
 
 ### Protected Endpoints
 Need to authenticate with username and password to use protected endpoints. Using a JWT token.
