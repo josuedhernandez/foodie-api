@@ -12,7 +12,7 @@ Written using NODE.js, Express and PostgreSQL
 Base URL: [https://morning-castle-66587.herokuapp.com/api](https://morning-castle-66587.herokuapp.com/api)
 
 ### Public
-* GET `/restaurants` fetches list of restaurants in the database.
+* **GET** `/restaurants` fetches list of restaurants in the database.
   *  The response looks like:
   ```
       {
@@ -25,10 +25,10 @@ Base URL: [https://morning-castle-66587.herokuapp.com/api](https://morning-castl
       meal: "Fried Rice"
       }
     ```
-* POST `/auth/login` returns a JWT token if the correct username and password (using "bcryptjs") was provided:
+* **POST** `/auth/login` returns a JWT token if the correct username and password (using "bcryptjs") was provided:
   *  The response and JWT with 3 hours of expiration.
 
-* POST `/auth/signup` posts and creates a new username in the database:
+* **POST** `/auth/signup` posts and creates a new username in the database:
     *  The body looks like:
     ```
     {
@@ -41,7 +41,7 @@ Base URL: [https://morning-castle-66587.herokuapp.com/api](https://morning-castl
 
 ### Protected Endpoints
 Need to authenticate with username and password to use protected endpoints. Using a JWT token.
-* GET `/restaurants/:restaurant_id` fetch restaurant and comments for a restaurant in the database.
+* **GET** `/restaurants/:restaurant_id` fetch restaurant and comments for a restaurant in the database.
   *  The body looks like:
   ```
   {
@@ -58,8 +58,8 @@ Need to authenticate with username and password to use protected endpoints. Usin
       }
       }
       ``` 
-* GET `/restaurants/:restaurant_id/comments` fetch comments for a given restaurant.
-* POST `/restaurants` create a new restaurant in the database.
+* **GET** `/restaurants/:restaurant_id/comments` fetch comments for a given restaurant.
+* **POST** `/restaurants` create a new restaurant in the database.
   *  The body looks like:
   ```
   {
@@ -70,7 +70,7 @@ Need to authenticate with username and password to use protected endpoints. Usin
       meal: "Fried Rice"
       }
       ``` 
-* POST `/comments` add new comment to an already existing restaurant in the database.
+* **POST** `/comments` add new comment to an already existing restaurant in the database.
   *  The body looks like:
   ```
   {
